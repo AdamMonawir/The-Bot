@@ -41,57 +41,62 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 client.once('ready', () => { console.log(`${client.user.username} has logged in`) });
 
 //Interaction
-client.on('interactionCreate', async interaction => {
-   if (interaction.isChatInputCommand()) {
+async function interction() {
+  
+  client.on('interactionCreate', async interaction => {
+    if (interaction.isChatInputCommand()) {
 
-    //Order Command
-    if (interaction.commandName === 'order') {
-      const food = interaction.options.get('food').value;
-      const drink = interaction.options.get('drink').value;
-      interaction.reply({content:`Your order was ${food} and ${drink} pay up`})
+      //Order Command
+      if (interaction.commandName === 'order') {
+        const food = interaction.options.get('food').value;
+        const drink = interaction.options.get('drink').value;
+        interaction.reply({content:`Your order was ${food} and ${drink} pay up`})
 
-      //Print to logs
-      console.log(interaction.user.username + ` ordered ${food} and ${drink}`)
-    }
-     
-    //Ping Command 
-    if (interaction.commandName === 'ping') {
-      await interaction.reply({content:"Pong"})
-
-      //Time to Gaslight
-      console.log("Begin Gaslight")
-      await wait(4000);
-      console.log("Gaslight sent, confusion begins")
-      await interaction.followUp({content:"Shhh I don't exist sh you are insane, PONG!", ephemeral: true})
-    }
-
-    //Terence Command
-    if (interaction.commandName === 'terence') {
-      const times = interaction.options.get('times').value;
-      await interaction.reply({content:"<@268452594924388353> DO YOUR HOMEWORK!!!"})
-      
-      //Loop
-      let i = 0
-      let n = 1
-      while (i < times) {
-        i++
-        await wait(5000);
-        await interaction.followUp({content:"<@268452594924388353> DO YOUR HOMEWORK!!!"})
+        //Print to logs
+        console.log(interaction.user.username + ` ordered ${food} and ${drink}`)
       }
+     
+      //Ping Command 
+      if (interaction.commandName === 'ping') {
+        await interaction.reply({content:"Pong"})
+
+        //Time to Gaslight
+        console.log("Begin Gaslight")
+        await wait(4000);
+        console.log("Gaslight sent, confusion begins")
+        await interaction.followUp({content:"Shhh I don't exist sh you are insane, PONG!", ephemeral: true})
+      }
+
+      //Terence Command
+      if (interaction.commandName === 'terence') {
+        const times = interaction.options.get('times').value;
+        await interaction.reply({content:"<@268452594924388353> DO YOUR HOMEWORK!!!"})
+      
+       //Loop
+        let i = 0
+       let n = 1
+       while (i < times) {
+         i++
+         await wait(5000);
+          await interaction.followUp({content:"<@268452594924388353> DO YOUR HOMEWORK!!!" + i})
+       }
+     }
+  
+      //Tag them Command
+      if (interaction.commandName === 'tag_them') {
+        const who = interaction.options.get('who').value;
+        interaction.reply({content:interaction.user.username + `   pinged, <@${who}> you must really need them NOW!!!`})
+      }
+  
+      //[PLACE_HOLDER] Command
+      
     }
+  });
+}
 
-    //Tag them Command
-    if (interaction.commandName === 'tag_them') {
-      const who = interaction.options.get('who').value;
-      interaction.reply({content:interaction.user.username + ` pinged, <@${who}> you must really need them NOW!!!`})
-    }
+interction();
 
-    //[PLACE_HOLDER] Command
-    
-  }
-});
-
-//Commands
+//Main function
 async function main() {
 
   const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand];
@@ -102,7 +107,7 @@ async function main() {
 
 
 
-//Login
+    //Login
     client.login(TOKEN);
   } catch (error) {
     console.error(error);
