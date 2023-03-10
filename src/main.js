@@ -8,6 +8,7 @@ import OrderCommand from './commands/order.js'
 import PingCommand from './commands/ping.js'
 import TerenceCommand from './commands/terence.js'
 import TagthemCommand from './commands/tag_them.js'
+import BearCommand from './commands/bear.js'
 
 //webhost
 const app = express();
@@ -32,7 +33,8 @@ const client = new Client({
 //.env file
 const TOKEN = process.env.B_Token
 const CLIENT_ID = process.env.Client_ID  
-const GUILD_ID = process.env.GUILD_ID;
+const GUILD_ID = process.env.GUILD_ID
+const GUILD_ID_2 = process.env.GUILD_ID_2
 
 //Rest
 const rest = new REST({ version: '10' }).setToken(TOKEN);
@@ -40,7 +42,7 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 //login check
 client.once('ready', () => { console.log(`${client.user.username} has logged in`) });
 
-//Interaction
+//Command Outputs
 async function interction() {
   
   client.on('interactionCreate', async interaction => {
@@ -58,13 +60,19 @@ async function interction() {
      
       //Ping Command 
       if (interaction.commandName === 'ping') {
+        const random = Math.floor(Math.random() * 101);
         await interaction.reply({content:"Pong"})
+        console.log(random)
 
-        //Time to Gaslight
-        console.log("Begin Gaslight")
-        await wait(4000);
-        console.log("Gaslight sent, confusion begins")
-        await interaction.followUp({content:"Shhh I don't exist sh you are insane, PONG!", ephemeral: true})
+        //Super Secret Pong
+        if (random === 5) {
+          await interaction.followUp({content:"Super Secret Pong", ephemeral: true})
+        } 
+
+        //Secret Pong
+        else if (random === 3 || random === 4 || random === 6 || random === 13 || random === 14 || random === 16 || random === 23 || random === 24 || random === 26 || random === 33 || random === 34 || random === 36 || random === 43 || random === 44 || random === 46 || random === 53 || random === 54 || random === 56 || random === 63 || random === 64 || random === 66 || random === 73 || random === 74 || random === 76 || random === 83 || random === 84 || random === 86 || random === 93 || random === 94 || random === 96){
+          await interaction.followUp({content:"Secret Pong", ephemeral: true})
+          }
       }
 
       //Terence Command
@@ -72,24 +80,49 @@ async function interction() {
         const times = interaction.options.get('times').value;
         await interaction.reply({content:"<@268452594924388353> DO YOUR HOMEWORK!!!"})
       
-       //Loop
+        //T.Loop
         let i = 0
-       let n = 1
-       while (i < times) {
-         i++
-         await wait(5000);
-          await interaction.followUp({content:"<@268452594924388353> DO YOUR HOMEWORK!!!" + i})
-       }
-     }
+        console.log("The amount of times the bot will repeat is " + times)
+        while (i < times) {
+          i++
+          await wait(5000);
+          await interaction.followUp({content:"<@268452594924388353> DO YOUR HOMEWORK!!!"})
+          console.log("This is rotation " + i + " of " + times)
+        }
+        console.log("The end")
+      }
   
       //Tag them Command
       if (interaction.commandName === 'tag_them') {
         const who = interaction.options.get('who').value;
-        interaction.reply({content:interaction.user.username + `   pinged, <@${who}> you must really need them NOW!!!`})
+        const repeats = interaction.options.get('repeats').value;
+        await interaction.reply({content:interaction.user.username + ` pinged, <@${who}> you must really need them NOW!!!`})
+        
+        //TT.Loop
+        let l = 0
+        console.log("The amount of times the bot will repeat is " + repeats)
+        while (l < repeats) {
+          l++
+          await wait(5000);
+          await interaction.followUp({content:interaction.user.username + ` pinged, <@${who}> you must really need them NOW!!!`})
+          console.log("This is rotation " + l + " of " + repeats)
+        }
+        console.log("The end")
       }
   
-      //[PLACE_HOLDER] Command
-      
+      //Bear Command
+      if (interaction.commandName === 'bear') {
+        const bear = interaction.options.get('bear').value;
+        interaction.reply({content:`Your request was ${bear}`})
+    }
+  
+      /*
+      //If no Command
+      else{
+      console.log("These people are insane")
+      interaction.reply({content:interaction.user.username + ` HOW, HOW DID YOU DO THIS TELL ME YOUR SECRETS`, ephemeral: true})
+      }*/
+
     }
   });
 }
@@ -99,11 +132,11 @@ interction();
 //Main function
 async function main() {
 
-  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand];
+  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand];
 
   try {
     console.log('Started refreshing application (/) commands.');
-    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands, });
+    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID, GUILD_ID_2), { body: commands, });
 
 
 
