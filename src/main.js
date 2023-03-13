@@ -9,6 +9,7 @@ import PingCommand from './commands/ping.js'
 import TerenceCommand from './commands/terence.js'
 import TagthemCommand from './commands/tag_them.js'
 import BearCommand from './commands/bear.js'
+import Random_numberCommand from './commands/random_number.js'
 
 //webhost
 const app = express();
@@ -41,6 +42,9 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 //login check
 client.once('ready', () => { console.log(`${client.user.username} has logged in`) });
+
+//HAHA Joke
+const randomn = Math.floor(Math.random() * 11);
 
 //Command Outputs
 async function interction() {
@@ -115,14 +119,28 @@ async function interction() {
         const bear = interaction.options.get('bear').value;
         interaction.reply({content:`Your request was ${bear}`})
     }
-  
-      /*
-      //If no Command
-      else{
-      console.log("These people are insane")
-      interaction.reply({content:interaction.user.username + ` HOW, HOW DID YOU DO THIS TELL ME YOUR SECRETS`, ephemeral: true})
-      }*/
-
+      
+      //Random number Command
+      if (interaction.commandName === 'number') {
+        const number = interaction.options.get('number').value;
+        if(randomn === number) {
+          interaction.reply({content:`GG you were correct`})
+        }
+        else if(randomn > number) {
+          interaction.reply({content:`WTF you doing down there`})
+        }
+        else if(randomn < number) {
+          interaction.reply({content:`Why are you so high`})
+          if(number === 123123) {
+            console.log("teas")
+          }
+        }
+        else {
+          console.log("Ummm")
+        }
+      }
+      //Command
+      
     }
   });
 }
@@ -132,7 +150,7 @@ interction();
 //Main function
 async function main() {
 
-  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand];
+  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand, Random_numberCommand];
 
   try {
     console.log('Started refreshing application (/) commands.');
