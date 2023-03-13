@@ -4,12 +4,16 @@ import { Client, CommandInteraction, GatewayIntentBits, InteractionCollector, Ro
 import { REST } from '@discordjs/rest'
 import express from 'express';
 import {setTimeout as wait} from 'node:timers/promises';
+//import Database from '@replit/database';
 import OrderCommand from './commands/order.js'
 import PingCommand from './commands/ping.js'
 import TerenceCommand from './commands/terence.js'
 import TagthemCommand from './commands/tag_them.js'
 import BearCommand from './commands/bear.js'
 import Random_numberCommand from './commands/random_number.js'
+
+//Database
+//const db = new Database()
 
 //webhost
 const app = express();
@@ -71,11 +75,13 @@ async function interction() {
         //Super Secret Pong
         if (random === 5) {
           await interaction.followUp({content:"Super Secret Pong", ephemeral: true})
+          console.log(`+5 point to ` + interaction.user.id + ` for Super Secret Pong`)
         } 
 
         //Secret Pong
         else if (random === 3 || random === 4 || random === 6 || random === 13 || random === 14 || random === 16 || random === 23 || random === 24 || random === 26 || random === 33 || random === 34 || random === 36 || random === 43 || random === 44 || random === 46 || random === 53 || random === 54 || random === 56 || random === 63 || random === 64 || random === 66 || random === 73 || random === 74 || random === 76 || random === 83 || random === 84 || random === 86 || random === 93 || random === 94 || random === 96){
           await interaction.followUp({content:"Secret Pong", ephemeral: true})
+          console.log(`+3 point to ` + interaction.user.id + ` for secret pong`)
           }
       }
 
@@ -125,6 +131,7 @@ async function interction() {
         const number = interaction.options.get('number').value;
         if(randomn === number) {
           interaction.reply({content:`GG you were correct`})
+          console.log(`+3 point to ` + interaction.user.id + ` for random number guess`)
         }
         else if(randomn > number) {
           interaction.reply({content:`WTF you doing down there`})
