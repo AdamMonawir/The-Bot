@@ -48,7 +48,7 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 client.once('ready', () => { console.log(`${client.user.username} has logged in`) });
 
 //HAHA Joke
-const randomn = Math.floor(Math.random() * 11);
+let randomn = Math.floor(Math.random() * 11);
 
 //Command Outputs
 async function interction() {
