@@ -4,7 +4,7 @@ import { Client, CommandInteraction, GatewayIntentBits, InteractionCollector, Ro
 import { REST } from '@discordjs/rest'
 import express from 'express';
 import {setTimeout as wait} from 'node:timers/promises';
-//import Database from '@replit/database';
+import Database from '@replit/database';
 import OrderCommand from './commands/order.js'
 import PingCommand from './commands/ping.js'
 import TerenceCommand from './commands/terence.js'
@@ -13,7 +13,10 @@ import BearCommand from './commands/bear.js'
 import Random_numberCommand from './commands/random_number.js'
 
 //Database
-//const db = new Database()
+const db = new Database()
+
+//Haha Joke
+let randomn = Math.floor(Math.random() * 11);
 
 //webhost
 const app = express();
@@ -39,16 +42,12 @@ const client = new Client({
 const TOKEN = process.env.B_Token
 const CLIENT_ID = process.env.Client_ID  
 const GUILD_ID = process.env.GUILD_ID
-const GUILD_ID_2 = process.env.GUILD_ID_2
 
 //Rest
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 //login check
 client.once('ready', () => { console.log(`${client.user.username} has logged in`) });
-
-//HAHA Joke
-let randomn = Math.floor(Math.random() * 11);
 
 //Command Outputs
 async function interction() {
@@ -61,7 +60,7 @@ async function interction() {
         const food = interaction.options.get('food').value;
         const drink = interaction.options.get('drink').value;
         interaction.reply({content:`Your order was ${food} and ${drink} pay up`})
-
+        
         //Print to logs
         console.log(interaction.user.username + ` ordered ${food} and ${drink}`)
       }
@@ -75,12 +74,14 @@ async function interction() {
         //Super Secret Pong
         if (random === 5) {
           await interaction.followUp({content:"Super Secret Pong", ephemeral: true})
+          await interaction.followUp({content:`+5 point to ` + interaction.user.username + ` for Super Secret Pong when I am bothered to setup leader boards`, ephemeral: true})
           console.log(`+5 point to ` + interaction.user.id + ` for Super Secret Pong`)
         } 
 
         //Secret Pong
         else if (random === 3 || random === 4 || random === 6 || random === 13 || random === 14 || random === 16 || random === 23 || random === 24 || random === 26 || random === 33 || random === 34 || random === 36 || random === 43 || random === 44 || random === 46 || random === 53 || random === 54 || random === 56 || random === 63 || random === 64 || random === 66 || random === 73 || random === 74 || random === 76 || random === 83 || random === 84 || random === 86 || random === 93 || random === 94 || random === 96){
           await interaction.followUp({content:"Secret Pong", ephemeral: true})
+          await interaction.followUp({content:`+3 point to ` + interaction.user.username + ` for Secret Pong when I am bothered to setup leader boards`, ephemeral: true})
           console.log(`+3 point to ` + interaction.user.id + ` for secret pong`)
           }
       }
@@ -90,7 +91,7 @@ async function interction() {
         const times = interaction.options.get('times').value;
         await interaction.reply({content:"<@268452594924388353> DO YOUR HOMEWORK!!!"})
       
-        //T.Loop
+        //Terence Loop
         let i = 0
         console.log("The amount of times the bot will repeat is " + times)
         while (i < times) {
@@ -108,7 +109,7 @@ async function interction() {
         const repeats = interaction.options.get('repeats').value;
         await interaction.reply({content:interaction.user.username + ` pinged, <@${who}> you must really need them NOW!!!`})
         
-        //TT.Loop
+        //Tag Loop
         let l = 0
         console.log("The amount of times the bot will repeat is " + repeats)
         while (l < repeats) {
@@ -129,19 +130,24 @@ async function interction() {
       //Random number Command
       if (interaction.commandName === 'number') {
         const number = interaction.options.get('number').value;
+      
+        //Correct
         if(randomn === number) {
-          interaction.reply({content:`GG you were correct`})
+          await interaction.reply({content:`GG you were correct`})
+          await interaction.followUp({content:`+3 point to ` + interaction.user.username + ` for random number guess when I am bothered to setup leader boards`, ephemeral: true})
           console.log(`+3 point to ` + interaction.user.id + ` for random number guess`)
         }
+          
+        //Less than 
         else if(randomn > number) {
-          interaction.reply({content:`WTF you doing down there`})
+          await interaction.reply({content:`WTF you doing down there`})
         }
+
+        //Greater than
         else if(randomn < number) {
-          interaction.reply({content:`Why are you so high`})
-          if(number === 123123) {
-            console.log("teas")
-          }
+          await interaction.reply({content:`Why are you so high`})
         }
+        //Hmm
         else {
           console.log("Ummm")
         }
@@ -161,7 +167,7 @@ async function main() {
 
   try {
     console.log('Started refreshing application (/) commands.');
-    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID, GUILD_ID_2), { body: commands, });
+    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands, });
 
 
 
