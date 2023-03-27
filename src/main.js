@@ -2,6 +2,8 @@
 import { config } from 'dotenv';
 import { Client, CommandInteraction, GatewayIntentBits, InteractionCollector, Routes } from 'discord.js';
 import { REST } from '@discordjs/rest'
+import path from 'path';
+import http from 'http';
 import express from 'express';
 import {setTimeout as wait} from 'node:timers/promises';
 import Database from '@replit/database';
@@ -20,11 +22,17 @@ let randomn = Math.floor(Math.random() * 11);
 
 //webhost
 const app = express();
+const server = http.createServer(app);
 const port = 3000;
 
-app.get('/', (req, res) => res.send(`The Bot is online`));
+app.use(express.json());
+app.use(express.static("express"));
+app.use('/', function(req,res){
+    res.sendFile(path.join(process.cwd(), './src/express/index.html'));
+});
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+server.listen(port);
+console.debug('Server listening on port ' + port);
 
 //.env file
 config();
