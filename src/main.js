@@ -13,9 +13,10 @@ import TerenceCommand from './commands/terence.js'
 import TagthemCommand from './commands/tag_them.js'
 import BearCommand from './commands/bear.js'
 import Random_numberCommand from './commands/random_number.js'
+import LinkCommand from './commands/link.js'
 
 //Database
-const db = new Database()
+//const db = new Database()
 
 //Haha Joke
 let randomn = Math.floor(Math.random() * 11);
@@ -148,7 +149,7 @@ async function interction() {
           
         //Less than 
         else if(randomn > number) {
-          await interaction.reply({content:`WTF you doing down there`})
+          await interaction.reply({content:`Get your head out of the gutter`})
         }
 
         //Greater than
@@ -160,8 +161,10 @@ async function interction() {
           console.log("Ummm")
         }
       }
-      //Command
-      
+      //Link Command
+      if (interaction.commandName === 'link') {
+        interaction.reply({content:`Go to https://personal-discord-bot.melmothe1st.repl.co/ to see who is at the top of the leader board`})
+      }
     }
   });
 }
@@ -171,7 +174,7 @@ interction();
 //Main function
 async function main() {
 
-  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand, Random_numberCommand];
+  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand, Random_numberCommand, LinkCommand];
 
   try {
     console.log('Started refreshing application (/) commands.');
