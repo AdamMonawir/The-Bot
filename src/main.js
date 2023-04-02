@@ -14,9 +14,10 @@ import TagthemCommand from './commands/tag_them.js'
 import BearCommand from './commands/bear.js'
 import Random_numberCommand from './commands/random_number.js'
 import LinkCommand from './commands/link.js'
+import PointCommand from './commands/points.js'
 
 //Database
-//const db = new Database()
+const db = new Database()
 
 //Haha Joke
 let randomn = Math.floor(Math.random() * 11);
@@ -29,7 +30,7 @@ const port = 3000;
 app.use(express.json());
 app.use(express.static("express"));
 app.use('/', function(req,res){
-    res.sendFile(path.join(process.cwd(), './src/express/index.html'));
+    res.sendFile(path.join(process.cwd(), './src/template/index.html'));
 });
 
 server.listen(port);
@@ -82,8 +83,9 @@ async function interction() {
 
         //Super Secret Pong
         if (random === 5) {
+          let current_point = await db.get(`${message.author.id}_current_point`)
           await interaction.followUp({content:"Super Secret Pong", ephemeral: true})
-          await interaction.followUp({content:`+5 point to ` + interaction.user.username + ` for Super Secret Pong when I am bothered to setup leader boards`, ephemeral: true})
+          await db.set(`${message.author.id}_point`, current_point + 5);
           console.log(`+5 point to ` + interaction.user.id + ` for Super Secret Pong`)
         } 
 
@@ -165,6 +167,11 @@ async function interction() {
       if (interaction.commandName === 'link') {
         interaction.reply({content:`Go to https://personal-discord-bot.melmothe1st.repl.co/ to see who is at the top of the leader board`})
       }
+      //Point Command
+      if (interaction.commandName === 'points') {
+        let points = await db.get(`${message.author.id}_point`)
+        interaction.reply({content:`${points}`})
+      }
     }
   });
 }
@@ -174,7 +181,7 @@ interction();
 //Main function
 async function main() {
 
-  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand, Random_numberCommand, LinkCommand];
+  const commands = [OrderCommand, PingCommand, TerenceCommand, TagthemCommand, BearCommand, Random_numberCommand, LinkCommand, PointCommand];
 
   try {
     console.log('Started refreshing application (/) commands.');
