@@ -18,9 +18,8 @@ import PointCommand from './commands/points.js'
 
 //Database
 const db = new Database()
-await db.set("key", "value");
-let key = await db.get("key");
-console.log(key);
+/*await db.set("points", "value");
+console.log(point);*/
 
 //Haha Joke
 let randomn = Math.floor(Math.random() * 11);
@@ -81,12 +80,12 @@ async function interction() {
       //Ping Command 
       if (interaction.commandName === 'ping') {
         const random = Math.floor(Math.random() * 101);
+        let current_point = db.get(`${message.author.id}_point`);
         await interaction.reply({ content: "Pong" })
         console.log(random)
 
         //Super Secret Pong
         if (random === 5) {
-          let current_point = await db.get(`${message.author.id}_current_point`)
           await interaction.followUp({ content: "Super Secret Pong", ephemeral: true })
           await db.set(`${message.author.id}_point`, current_point + 5);
           console.log(`+5 point to ` + interaction.user.id + ` for Super Secret Pong`)
@@ -96,6 +95,7 @@ async function interction() {
         else if (random === 3 || random === 4 || random === 6 || random === 13 || random === 14 || random === 16 || random === 23 || random === 24 || random === 26 || random === 33 || random === 34 || random === 36 || random === 43 || random === 44 || random === 46 || random === 53 || random === 54 || random === 56 || random === 63 || random === 64 || random === 66 || random === 73 || random === 74 || random === 76 || random === 83 || random === 84 || random === 86 || random === 93 || random === 94 || random === 96) {
           await interaction.followUp({ content: "Secret Pong", ephemeral: true })
           await interaction.followUp({ content: `+3 point to ` + interaction.user.username + ` for Secret Pong when I am bothered to setup leader boards`, ephemeral: true })
+          await db.set(`${message.author.id}_point`, current_point + 5);
           console.log(`+3 point to ` + interaction.user.id + ` for secret pong`)
         }
       }
@@ -166,19 +166,19 @@ async function interction() {
           console.log("Ummm")
         }
       }
+      
       //Link Command
       if (interaction.commandName === 'link') {
         interaction.reply({ content: `Go to https://personal-discord-bot.melmothe1st.repl.co/ to see who is at the top of the leader board` })
       }
+      
       //Point Command 
       if (interaction.commandName === 'point') {
-        const x = 0
-        let points = await 
-        interaction.reply({ content: `what is popping` })
-          if (x === 2) {
-            console.log(`${points}`)
-        }
+        let points = await db.get(`${message.author.id}_point`);
+        interaction.reply({ content: `${points} what is popping` })
       }
+
+      //Command
     }
   });
 }
