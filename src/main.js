@@ -80,7 +80,7 @@ async function interction() {
       //Ping Command 
       if (interaction.commandName === 'ping') {
         const random = Math.floor(Math.random() * 101);
-        let current_point = db.get(`${message.author.id}_point`);
+        /*let current_point = db.get(`${message.author.id}_point`);*/
         await interaction.reply({ content: "Pong" })
         console.log(random)
 
@@ -159,7 +159,7 @@ async function interction() {
 
         //Greater than
         else if (randomn < number) {
-          await interaction.reply({ content: `Why are you so high` })
+          await interaction.reply({ content: `Why are you so high, you must love the number 420` })
         }
         //Hmm
         else {
@@ -174,7 +174,7 @@ async function interction() {
       
       //Point Command 
       if (interaction.commandName === 'point') {
-        let points = await db.get(`${message.author.id}_point`);
+        let points = db.get(`${message.author.id}_point`);
         interaction.reply({ content: `${points} what is popping` })
       }
 
