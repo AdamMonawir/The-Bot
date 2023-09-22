@@ -87,7 +87,7 @@ async function interction() {
         //Super Secret Pong
         if (random === 5) {
           await interaction.followUp({ content: "Super Secret Pong", ephemeral: true })
-          await db.set(`${message.author.id}_point`, current_point + 5);
+          //await db.set(`${message.author.id}_point`, current_point + 5);
           console.log(`+5 point to ` + interaction.user.id + ` for Super Secret Pong`)
         }
 
@@ -95,7 +95,7 @@ async function interction() {
         else if (random === 3 || random === 4 || random === 6 || random === 13 || random === 14 || random === 16 || random === 23 || random === 24 || random === 26 || random === 33 || random === 34 || random === 36 || random === 43 || random === 44 || random === 46 || random === 53 || random === 54 || random === 56 || random === 63 || random === 64 || random === 66 || random === 73 || random === 74 || random === 76 || random === 83 || random === 84 || random === 86 || random === 93 || random === 94 || random === 96) {
           await interaction.followUp({ content: "Secret Pong", ephemeral: true })
           await interaction.followUp({ content: `+3 point to ` + interaction.user.username + ` for Secret Pong when I am bothered to setup leader boards`, ephemeral: true })
-          await db.set(`${message.author.id}_point`, current_point + 5);
+          //await db.set(`${message.author.id}_point`, current_point + 5);
           console.log(`+3 point to ` + interaction.user.id + ` for secret pong`)
         }
       }
@@ -144,6 +144,8 @@ async function interction() {
       //Random number Command
       if (interaction.commandName === 'number') {
         const number = interaction.options.get('number').value;
+        console.log(`The number is ` + randomn);
+        console.log(`They guessed ` + number);
 
         //Correct
         if (randomn === number) {
@@ -173,10 +175,10 @@ async function interction() {
       }
       
       //Point Command 
-      if (interaction.commandName === 'point') {
+      /*if (interaction.commandName === 'point') {
         let points = db.get(`${message.author.id}_point`);
         interaction.reply({ content: `${points} what is popping` })
-      }
+      }*/
 
       //Command
     }
